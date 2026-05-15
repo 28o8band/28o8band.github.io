@@ -65,7 +65,7 @@ font-size: 500%;
 }
 
 #wood {
-  background-image: url("/28o8/28o8Web/Texture/WoodBorder.png");
+  background-image: url("/Texture/WoodBorder.png");
   background-position: center;
 background-size:contain;
 
@@ -80,7 +80,7 @@ justify-content: center;
 
 }
 #brickH {
-  background-image: url("/28o8/28o8Web/Texture/BorderStoneWall.png");
+  background-image: url("/Texture/BorderStoneWall.png");
   background-position: center;
 background-size:contain;
 background-size: 100% auto;
@@ -112,7 +112,7 @@ color: rgb(0, 0, 0);
 }
 
 #brick {
-  background-image: url("/28o8/28o8Web/Texture/Scroll-Hor.webp");
+  background-image: url("/Texture/Scroll-Hor.webp");
   background-position: center;
 background-size:100% 100%;
 background-repeat: no-repeat;
