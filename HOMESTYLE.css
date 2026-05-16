@@ -30,6 +30,7 @@ body {
     flex-direction: column;
 justify-content: space-around;
 align-items: center;
+  overflow-x: hidden;
 }
 .logo {
   background-position: center;
@@ -58,7 +59,7 @@ align-content: center;
   position: absolute;
   z-index: ; /* Stay on top */
   top: 300px; /* Stay at the top */
-  
+  overflow-x: hidden;
   background-image: url(Texture/Tombstone.png);
   overflow-x: hidden; /* Disable horizontal scroll */
   background-repeat: no-repeat;
