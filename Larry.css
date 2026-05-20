@@ -1,0 +1,106 @@
+/* =========================
+   PAGE
+========================= */
+
+body{
+  margin:0;
+  background-color:black
+  overflow-x:hidden;
+}
+
+/* =========================
+   LARRY BUTTON
+========================= */
+
+#jokeBtn{
+
+  position:fixed;
+
+  bottom:25px;
+
+  right:25px;
+
+  width:125px;
+
+  height:125px;
+
+  cursor:pointer;
+
+  transition:0.2s;
+
+  user-select:none;
+
+  image-rendering:pixelated;
+
+  z-index:9999;
+}
+
+#jokeBtn:hover{
+  transform:scale(1.08);
+}
+
+/* =========================
+   SPEECH BUBBLE
+========================= */
+
+#bubble{
+
+  position:fixed;
+
+  bottom:175px;
+
+  right:20px;
+
+  background-image: url("/28o8/28o8Web/Texture/Scroll-Hor.webp");
+  background-size: 100% 100%;
+  color:black;
+  padding:20px 24px;
+  max-width:350px;
+  font-size:22px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.35s;
+  pointer-events:none;
+  z-index:9999;
+}
+
+/* =========================
+   BUBBLE TAIL
+========================= */
+
+#bubble::after{
+
+  content:"";
+
+  position:absolute;
+
+  bottom:-18px;
+
+  right:50px;
+
+  border-width:18px 14px 0 14px;
+
+  border-style:solid;
+
+  border-color:white transparent transparent transparent;
+}
+
+/* =========================
+   SHOW BUBBLE
+========================= */
+
+#bubble.show{
+
+  opacity:1;
+
+  transform:translateY(0);
+}
+
+/* =========================
+   OPTIONAL IMAGE STYLING
+========================= */
+
+img{
+  max-width:100%;
+}

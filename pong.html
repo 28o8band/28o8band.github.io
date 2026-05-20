@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2808 Pong</title>
+<link rel="stylesheet" href="bandstyle.css">
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* =========================
+   CUSTOM FONT
+========================= */
+
+@font-face{
+
+  font-family:'Ghastly';
+
+  src:url('photos/Ghastly_Panic.ttf') format('truetype');
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+
+  overflow:hidden;
+
+  background:black;
+
+  font-family:'Ghastly', Arial, sans-serif;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  height:100vh;
+}
+
+/* =========================
+   CANVAS
+========================= */
+
+canvas{
+
+  border:3px solid #a00000;
+
+  box-shadow:
+    0 0 20px red,
+    0 0 40px darkred;
+}
+
+/* =========================
+   MENU
+========================= */
+
+#menu{
+
+  position:absolute;
+
+  inset:0;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  z-index:1000;
+
+  background-image:url("photos/cio60076.jpg");
+
+  background-size:cover;
+
+  background-position:center;
+
+  background-repeat:no-repeat;
+}
+
+/* =========================
+   MAIN TITLE
+========================= */
+
+.title{
+
+  font-family:'Ghastly';
+
+  color:#a00000;
+
+  font-size:95px;
+
+  margin-bottom:60px;
+
+  letter-spacing:5px;
+
+  text-shadow:
+    0 0 10px black,
+    0 0 25px red,
+    0 0 50px darkred;
+}
+
+/* =========================
+   BUTTON WRAPPER
+========================= */
+
+.button-wrapper{
+
+  position:relative;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  cursor:pointer;
+
+  margin:15px;
+
+  transition:0.2s;
+}
+
+.button-wrapper:hover{
+
+  transform:scale(1.05);
+}
+
+/* =========================
+   BUTTON IMAGE
+========================= */
+
+.menu-image-btn{
+
+  width:340px;
+
+  user-select:none;
+
+  pointer-events:none;
+}
+
+/* =========================
+   BUTTON TEXT
+========================= */
+
+.button-text{
+
+  position:absolute;
+
+  font-family:'Ghastly';
+
+  font-size:52px;
+
+  color:black;
+
+  letter-spacing:3px;
+
+  pointer-events:none;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay{
+
+  position:absolute;
+
+  top:15px;
+
+  width:100%;
+
+  text-align:center;
+
+  color:white;
+
+  pointer-events:none;
+}
+
+.overlay h1{
+
+  font-size:42px;
+
+  color:#a00000;
+
+  text-shadow:
+    0 0 10px black,
+    0 0 20px red;
+}
+
+.overlay p{
+
+  margin-top:8px;
+
+  font-size:18px;
+
+  text-shadow:
+    0 0 10px black;
+}
+
+/* =========================
+   MOBILE CONTROLS
+========================= */
+
+#mobileControls{
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  z-index:5;
+}
+
+/* =========================
+   D PAD
+========================= */
+
+#dpad{
+
+  position:absolute;
+
+  bottom:25px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  display:flex;
+
+  flex-direction:row;
+
+  gap:30px;
+
+  pointer-events:auto;
+}
+
+/* =========================
+   CUSTOM IMAGE BUTTONS
+========================= */
+
+.dpad-btn{
+
+  width:130px;
+
+  height:130px;
+
+  border:none;
+
+  cursor:pointer;
+
+  background-size:contain;
+
+  background-repeat:no-repeat;
+
+  background-position:center;
+
+  background-color:transparent;
+
+  touch-action:none;
+
+  transition:0.15s;
+}
+
+.dpad-btn:active{
+
+  transform:scale(0.92);
+}
+
+/* =========================
+   BUTTON IMAGES
+========================= */
+
+#upBtn{
+
+  background-image:url("/28o8/28o8Web/Pong-Img/up-arrow.png");
+}
+
+#downBtn{
+
+  background-image:url("/28o8/28o8Web/Pong-Img/down-arrow.png");
+}
+@media (max-width: 600px) {
+
+      #game {
+        width: 400px;
+     }
+     }
+    
+
+#pauseBtn{
+
+  position:absolute;
+
+  top:20px;
+
+  right:20px;
+
+  width:110px;
+
+  height:110px;
+
+  border:none;
+
+  cursor:pointer;
+
+  background-image:url("photos/pause-button.png");
+
+  background-size:contain;
+
+  background-repeat:no-repeat;
+
+  background-position:center;
+
+  background-color:transparent;
+
+  pointer-events:auto;
+
+  touch-action:none;
+
+  transition:0.15s;
+}
+
+#pauseBtn:active{
+
+  transform:scale(0.92);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     MENU
+========================= -->
+
+<div id="menu">
+
+  <h1 class="title">
+    2808 PONG
+  </h1>
+
+  <div class="button-wrapper" id="startBtn">
+
+    <img
+      src="photos/Metal-Button.png"
+      class="menu-image-btn"
+      alt="Start Game"
+    >
+
+    <span class="button-text">
+      START
+    </span>
+
+  </div>
+
+  <div class="button-wrapper" id="homeBtn">
+
+    <img
+      src="photos/Metal-Button.png"
+      class="menu-image-btn"
+      alt="Home"
+    >
+
+    <span class="button-text">
+      HOME
+    </span>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     OVERLAY
+========================= -->
+
+<div class="overlay">
+<div id="wood">
+  <h1>2808 PONG</h1>
+
+  <p>W / S TO MOVE — ESC FOR MENU</p>
+
+  </div>
+</div>
+</div>
+
+<!-- =========================
+     GAME
+========================= -->
+
+<canvas id="game" width="1000" height="600"></canvas>
+
+<!-- =========================
+     MOBILE CONTROLS
+========================= -->
+
+<div id="mobileControls">
+
+
+  
+  <div id="dpad">
+
+    <button class="dpad-btn" id="upBtn"></button>
+<a class="nav-link" href="index.html">
+  <div id="sheild">
+    <h1>Home</h1>
+  </div>
+</a>
+    <button class="dpad-btn" id="downBtn"></button>
+
+  </div>
+
+  <button id="pauseBtn"></button>
+
+</div>
+
+<script>
+
+// =========================
+// GAME SETUP
+// =========================
+
+const canvas = document.getElementById("game");
+
+const ctx = canvas.getContext("2d");
+
+const menu = document.getElementById("menu");
+
+const startBtn = document.getElementById("startBtn");
+
+const homeBtn = document.getElementById("homeBtn");
+
+let gameStarted = false;
+
+// =========================
+// CUSTOM SWORD IMAGE
+// =========================
+
+const swordImage = new Image();
+
+swordImage.src = "photos/c pong sword.png";
+
+let swordLoaded = false;
+
+swordImage.onload = () => {
+
+  swordLoaded = true;
+};
+
+// =========================
+// CUSTOM GAME BACKGROUND
+// =========================
+
+const gameBg = new Image();
+
+gameBg.src =
+"photos/vecteezy_spooky-old-cellar-abandoned-and-illuminated-with-mysterious_33309983.jpg";
+
+let gameBgLoaded = false;
+
+gameBg.onload = () => {
+
+  gameBgLoaded = true;
+};
+
+// =========================
+// PLAYER
+// =========================
+
+const player = {
+
+  x:20,
+
+  y:canvas.height / 2 - 70,
+
+  width:32,
+
+  height:140,
+
+  speed:8,
+
+  score:0
+};
+
+// =========================
+// NPC
+// =========================
+
+const npc = {
+
+  x:canvas.width - 52,
+
+  y:canvas.height / 2 - 70,
+
+  width:32,
+
+  height:140,
+
+  speed:4.8,
+
+  score:0
+};
+
+// =========================
+// BALL
+// =========================
+
+const ball = {
+
+  x:canvas.width / 2,
+
+  y:canvas.height / 2,
+
+  size:24,
+
+  speedX:4,
+
+  speedY:2.5
+};
+
+// =========================
+// CONTROLS
+// =========================
+
+const keys = {};
+
+window.addEventListener("keydown", (e) => {
+
+  keys[e.key.toLowerCase()] = true;
+});
+
+window.addEventListener("keyup", (e) => {
+
+  keys[e.key.toLowerCase()] = false;
+});
+
+// =========================
+// MOBILE D PAD
+// =========================
+
+const upBtn = document.getElementById("upBtn");
+
+const downBtn = document.getElementById("downBtn");
+
+function holdButton(button, key){
+
+  button.addEventListener("touchstart", (e) => {
+
+    e.preventDefault();
+
+    keys[key] = true;
+  });
+
+  button.addEventListener("touchend", () => {
+
+    keys[key] = false;
+  });
+
+  button.addEventListener("touchcancel", () => {
+
+    keys[key] = false;
+  });
+
+  button.addEventListener("mousedown", () => {
+
+    keys[key] = true;
+  });
+
+  button.addEventListener("mouseup", () => {
+
+    keys[key] = false;
+  });
+
+  button.addEventListener("mouseleave", () => {
+
+    keys[key] = false;
+  });
+}
+
+holdButton(upBtn, "w");
+
+holdButton(downBtn, "s");
+
+// =========================
+// PAUSE BUTTON
+// =========================
+
+const pauseBtn = document.getElementById("pauseBtn");
+
+pauseBtn.addEventListener("click", () => {
+
+  gameStarted = !gameStarted;
+
+  if(gameStarted){
+
+    menu.style.display = "none";
+
+  } else {
+
+    menu.style.display = "flex";
+  }
+});
+
+// =========================
+// START BUTTON
+// =========================
+
+startBtn.addEventListener("click", () => {
+
+  gameStarted = true;
+
+  menu.style.display = "none";
+
+  player.score = 0;
+
+  npc.score = 0;
+
+  resetBall();
+});
+
+// =========================
+// HOME BUTTON
+// =========================
+
+homeBtn.addEventListener("click", () => {
+
+  window.location.href = "index.html";
+});
+
+// =========================
+// ESC MENU
+// =========================
+
+window.addEventListener("keydown", (e) => {
+
+  if(e.key === "Escape"){
+
+    gameStarted = false;
+
+    menu.style.display = "flex";
+  }
+});
+
+// =========================
+// RESET BALL
+// =========================
+
+function resetBall(){
+
+  ball.x = canvas.width / 2;
+
+  ball.y = canvas.height / 2;
+
+  ball.speedX *= -1;
+
+  ball.speedY = (Math.random() * 6) - 3;
+}
+
+// =========================
+// PLAYER MOVE
+// =========================
+
+function movePlayer(){
+
+  if(keys["w"]) player.y -= player.speed;
+
+  if(keys["s"]) player.y += player.speed;
+
+  player.y = Math.max(
+    0,
+    Math.min(canvas.height - player.height, player.y)
+  );
+}
+
+// =========================
+// NPC MOVE
+// =========================
+
+function moveNPC(){
+
+  const center = npc.y + npc.height / 2;
+
+  if(center < ball.y - 20){
+
+    npc.y += npc.speed;
+  }
+
+  else if(center > ball.y + 20){
+
+    npc.y -= npc.speed;
+  }
+}
+
+// =========================
+// COLLISION
+// =========================
+
+function collision(paddle){
+
+  return(
+
+    ball.x - ball.size / 2 < paddle.x + paddle.width &&
+    ball.x + ball.size / 2 > paddle.x &&
+    ball.y - ball.size / 2 < paddle.y + paddle.height &&
+    ball.y + ball.size / 2 > paddle.y
+  );
+}
+
+// =========================
+// UPDATE
+// =========================
+
+function update(){
+
+  movePlayer();
+
+  moveNPC();
+
+  ball.x += ball.speedX;
+
+  ball.y += ball.speedY;
+
+  if(
+    ball.y - ball.size / 2 <= 0 ||
+    ball.y + ball.size / 2 >= canvas.height
+  ){
+
+    ball.speedY *= -1;
+  }
+
+  if(collision(player)){
+
+    ball.speedX = Math.abs(ball.speedX);
+  }
+
+  if(collision(npc)){
+
+    ball.speedX = -Math.abs(ball.speedX);
+  }
+
+  if(ball.x < 0){
+
+    npc.score++;
+
+    resetBall();
+  }
+
+  if(ball.x > canvas.width){
+
+    player.score++;
+
+    resetBall();
+  }
+}
+
+// =========================
+// DRAW BACKGROUND
+// =========================
+
+function drawBackground(){
+
+  if(gameBgLoaded){
+
+    ctx.drawImage(
+      gameBg,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  } else {
+
+    ctx.fillStyle = "#111";
+
+    ctx.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+  }
+}
+
+// =========================
+// DRAW SWORD IMAGE
+// =========================
+
+function drawSword(x, y, flipped = false){
+
+  ctx.save();
+
+  const swordWidth = 55;
+
+  const swordHeight = 140;
+
+  if(flipped){
+
+    ctx.translate(x + swordWidth, y);
+
+    ctx.scale(-1, 1);
+
+    x = 0;
+
+    y = 0;
+  }
+
+  if(swordLoaded){
+
+    ctx.drawImage(
+      swordImage,
+      x,
+      y,
+      swordWidth,
+      swordHeight
+    );
+
+  } else {
+
+    ctx.fillStyle = "white";
+
+    ctx.fillRect(
+      x + 20,
+      y,
+      12,
+      140
+    );
+  }
+
+  ctx.restore();
+}
+
+// =========================
+// DRAW BALL
+// =========================
+
+function drawBall(){
+
+  ctx.beginPath();
+
+  ctx.arc(
+    ball.x,
+    ball.y,
+    ball.size / 2,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle = "white";
+
+  ctx.shadowBlur = 20;
+
+  ctx.shadowColor = "white";
+
+  ctx.fill();
+
+  ctx.shadowBlur = 0;
+}
+
+// =========================
+// RENDER
+// =========================
+
+function render(){
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  drawBackground();
+
+  drawSword(player.x, player.y);
+
+  drawSword(npc.x, npc.y, true);
+
+  drawBall();
+
+  ctx.font = "70px Ghastly";
+
+  ctx.fillStyle = "#a00000";
+
+  ctx.shadowColor = "red";
+
+  ctx.shadowBlur = 20;
+
+  ctx.fillText(
+    player.score,
+    canvas.width / 2 - 100,
+    80
+  );
+
+  ctx.fillText(
+    npc.score,
+    canvas.width / 2 + 60,
+    80
+  );
+
+  ctx.shadowBlur = 0;
+}
+
+// =========================
+// MAIN LOOP
+// =========================
+
+function gameLoop(){
+
+  if(gameStarted){
+
+    update();
+
+    render();
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+</script>
+
+</body>
+</html>
