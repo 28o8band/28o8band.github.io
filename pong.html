@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,
+content="
+width=device-width,
 initial-scale=1.0,
 maximum-scale=1.0,
 user-scalable=no">
 
 <title>2808 Pong</title>
 
-<link rel="stylesheet" href="bandstyle.css">
+<link rel="stylesheet"
+href="bandstyle.css">
 
 <style>
 
@@ -23,20 +26,23 @@ user-scalable=no">
 
   margin:0;
   padding:0;
+
   box-sizing:border-box;
 
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color:
+  transparent;
 }
 
 /* =========================
-   CUSTOM FONT
+   FONT
 ========================= */
 
 @font-face{
 
   font-family:'Ghastly';
 
-  src:url('photos/Ghastly_Panic.ttf')
+  src:url(
+  'photos/Ghastly_Panic.ttf')
   format('truetype');
 }
 
@@ -50,7 +56,10 @@ body{
 
   background:black;
 
-  font-family:'Ghastly', Arial, sans-serif;
+  font-family:
+  'Ghastly',
+  Arial,
+  sans-serif;
 
   display:flex;
 
@@ -62,10 +71,7 @@ body{
 
   touch-action:none;
 
-  -webkit-user-select:none;
   user-select:none;
-
-  -webkit-touch-callout:none;
 }
 
 /* =========================
@@ -110,8 +116,6 @@ canvas{
   background-size:cover;
 
   background-position:center;
-
-  background-repeat:no-repeat;
 }
 
 /* =========================
@@ -120,11 +124,9 @@ canvas{
 
 .title{
 
-  font-family:'Ghastly';
+  font-size:95px;
 
   color:#a00000;
-
-  font-size:95px;
 
   margin-bottom:60px;
 
@@ -167,15 +169,11 @@ canvas{
   width:340px;
 
   pointer-events:none;
-
-  -webkit-user-drag:none;
 }
 
 .button-text{
 
   position:absolute;
-
-  font-family:'Ghastly';
 
   font-size:52px;
 
@@ -223,9 +221,6 @@ canvas{
   margin-top:8px;
 
   font-size:18px;
-
-  text-shadow:
-    0 0 10px black;
 }
 
 /* =========================
@@ -255,7 +250,8 @@ canvas{
 
   left:50%;
 
-  transform:translateX(-50%);
+  transform:
+  translateX(-50%);
 
   display:flex;
 
@@ -273,7 +269,6 @@ canvas{
 .dpad-btn{
 
   width:130px;
-
   height:130px;
 
   border:none;
@@ -291,13 +286,6 @@ canvas{
   touch-action:none;
 
   transition:0.15s;
-
-  -webkit-user-select:none;
-  user-select:none;
-
-  -webkit-touch-callout:none;
-
-  -webkit-user-drag:none;
 }
 
 .dpad-btn:active{
@@ -335,7 +323,8 @@ canvas{
   border:3px solid #700000;
 
   background:
-  radial-gradient(circle,
+  radial-gradient(
+  circle,
   #3a0000,
   #120000);
 
@@ -346,14 +335,7 @@ canvas{
   align-items:center;
 
   box-shadow:
-    0 0 20px red;
-
-  transition:0.2s;
-}
-
-#shield:active{
-
-  transform:scale(0.92);
+  0 0 20px red;
 }
 
 #shield h1{
@@ -363,7 +345,7 @@ canvas{
   font-size:22px;
 
   text-shadow:
-    0 0 10px red;
+  0 0 10px red;
 }
 
 /* =========================
@@ -375,11 +357,9 @@ canvas{
   position:absolute;
 
   top:20px;
-
   right:20px;
 
   width:110px;
-
   height:110px;
 
   border:none;
@@ -475,8 +455,7 @@ canvas{
 
     <img
     src="Texture/Metal-Button.png"
-    class="menu-image-btn"
-    alt="Start">
+    class="menu-image-btn">
 
     <span class="button-text">
       START
@@ -489,8 +468,7 @@ canvas{
 
     <img
     src="Texture/Metal-Button.png"
-    class="menu-image-btn"
-    alt="Home">
+    class="menu-image-btn">
 
     <span class="button-text">
       HOME
@@ -516,10 +494,11 @@ canvas{
 </div>
 
 <!-- =========================
-     CANVAS
+     GAME
 ========================= -->
 
-<canvas id="game"
+<canvas
+id="game"
 width="1000"
 height="600"></canvas>
 
@@ -582,7 +561,8 @@ let gameStarted = false;
 // IMAGES
 // =========================
 
-const swordImage = new Image();
+const swordImage =
+new Image();
 
 swordImage.src =
 "Pong-Img/c pong sword.png";
@@ -594,7 +574,8 @@ swordImage.onload = () => {
   swordLoaded = true;
 };
 
-const gameBg = new Image();
+const gameBg =
+new Image();
 
 gameBg.src =
 "Pong-Img/vecteezy_spooky-old-cellar-abandoned-and-illuminated-with-mysterious_33309983.jpg";
@@ -660,8 +641,6 @@ const ball = {
 
   maxSpeed:11,
 
-  acceleration:0.003,
-
   currentSpeed:4,
 
   speedX:4,
@@ -677,42 +656,57 @@ const keys = {};
 
 window.addEventListener(
 "keydown",
+
 (e) => {
 
-  keys[e.key.toLowerCase()] = true;
+  keys[
+  e.key.toLowerCase()
+  ] = true;
 });
 
 window.addEventListener(
 "keyup",
+
 (e) => {
 
-  keys[e.key.toLowerCase()] = false;
+  keys[
+  e.key.toLowerCase()
+  ] = false;
 });
 
 // =========================
-// MOBILE CONTROLS
+// MOBILE BUTTONS
 // =========================
 
 const upBtn =
-document.getElementById("upBtn");
+document.getElementById(
+"upBtn");
 
 const downBtn =
-document.getElementById("downBtn");
+document.getElementById(
+"downBtn");
 
-function holdButton(button, key){
+function holdButton(
+button,
+key
+){
 
   button.addEventListener(
   "touchstart",
+
   (e) => {
 
     e.preventDefault();
 
     keys[key] = true;
   },
-  { passive:false });
+
+  { passive:false }
+  );
 
   button.addEventListener(
   "touchend",
+
   () => {
 
     keys[key] = false;
@@ -720,6 +714,7 @@ function holdButton(button, key){
 
   button.addEventListener(
   "touchcancel",
+
   () => {
 
     keys[key] = false;
@@ -727,6 +722,7 @@ function holdButton(button, key){
 
   button.addEventListener(
   "mousedown",
+
   () => {
 
     keys[key] = true;
@@ -734,6 +730,7 @@ function holdButton(button, key){
 
   button.addEventListener(
   "mouseup",
+
   () => {
 
     keys[key] = false;
@@ -741,36 +738,44 @@ function holdButton(button, key){
 
   button.addEventListener(
   "mouseleave",
+
   () => {
 
     keys[key] = false;
   });
 }
 
-holdButton(upBtn, "w");
+holdButton(upBtn,"w");
 
-holdButton(downBtn, "s");
+holdButton(downBtn,"s");
 
 // =========================
 // PAUSE BUTTON
 // =========================
 
 const pauseBtn =
-document.getElementById("pauseBtn");
+document.getElementById(
+"pauseBtn");
 
 pauseBtn.addEventListener(
 "click",
+
 () => {
 
-  gameStarted = !gameStarted;
+  gameStarted =
+  !gameStarted;
 
   if(gameStarted){
 
-    menu.style.display = "none";
+    menu.style.display =
+    "none";
 
-  } else {
+  }
 
-    menu.style.display = "flex";
+  else{
+
+    menu.style.display =
+    "flex";
   }
 });
 
@@ -780,11 +785,13 @@ pauseBtn.addEventListener(
 
 startBtn.addEventListener(
 "click",
+
 () => {
 
   gameStarted = true;
 
-  menu.style.display = "none";
+  menu.style.display =
+  "none";
 
   player.score = 0;
 
@@ -799,6 +806,7 @@ startBtn.addEventListener(
 
 homeBtn.addEventListener(
 "click",
+
 () => {
 
   window.location.href =
@@ -811,13 +819,15 @@ homeBtn.addEventListener(
 
 window.addEventListener(
 "keydown",
+
 (e) => {
 
   if(e.key === "Escape"){
 
     gameStarted = false;
 
-    menu.style.display = "flex";
+    menu.style.display =
+    "flex";
   }
 });
 
@@ -837,21 +847,32 @@ function resetBall(){
   ball.baseSpeed;
 
   const angle =
-  (Math.random() * Math.PI / 3)
-  - (Math.PI / 6);
+
+  (Math.random()
+  * Math.PI / 3)
+
+  -
+
+  (Math.PI / 6);
 
   const direction =
+
   Math.random() > 0.5
   ? 1
   : -1;
 
   ball.speedX =
+
   Math.cos(angle)
+
   * ball.currentSpeed
+
   * direction;
 
   ball.speedY =
+
   Math.sin(angle)
+
   * ball.currentSpeed;
 }
 
@@ -863,12 +884,14 @@ function movePlayer(){
 
   if(keys["w"]){
 
-    player.y -= player.speed;
+    player.y -=
+    player.speed;
   }
 
   if(keys["s"]){
 
-    player.y += player.speed;
+    player.y +=
+    player.speed;
   }
 
   player.y = Math.max(
@@ -892,14 +915,17 @@ function movePlayer(){
 function moveNPC(){
 
   const center =
-  npc.y + npc.height / 2;
+
+  npc.y
+  + npc.height / 2;
 
   if(center < ball.y - 20){
 
     npc.y += npc.speed;
   }
 
-  else if(center > ball.y + 20){
+  else if(
+  center > ball.y + 20){
 
     npc.y -= npc.speed;
   }
@@ -913,23 +939,41 @@ function collision(paddle){
 
   return(
 
-    ball.x - ball.size / 2
-    < paddle.x + paddle.width
+    ball.x
+    - ball.size / 2
+
+    <
+
+    paddle.x
+    + paddle.width
 
     &&
 
-    ball.x + ball.size / 2
-    > paddle.x
+    ball.x
+    + ball.size / 2
+
+    >
+
+    paddle.x
 
     &&
 
-    ball.y - ball.size / 2
-    < paddle.y + paddle.height
+    ball.y
+    - ball.size / 2
+
+    <
+
+    paddle.y
+    + paddle.height
 
     &&
 
-    ball.y + ball.size / 2
-    > paddle.y
+    ball.y
+    + ball.size / 2
+
+    >
+
+    paddle.y
   );
 }
 
@@ -943,42 +987,11 @@ function update(){
 
   moveNPC();
 
-  ball.x += ball.speedX;
+  ball.x +=
+  ball.speedX;
 
-  ball.y += ball.speedY;
-
-  // =========================
-  // BALL SPEED INCREASE
-  // =========================
-
-  if(ball.currentSpeed
-  < ball.maxSpeed){
-
-    ball.currentSpeed +=
-    ball.acceleration;
-  }
-
-  const angle =
-  Math.atan2(
-
-    ball.speedY,
-
-    ball.speedX
-  );
-
-  const directionX =
-  ball.speedX > 0
-  ? 1
-  : -1;
-
-  ball.speedX =
-  Math.cos(angle)
-  * ball.currentSpeed
-  * directionX;
-
-  ball.speedY =
-  Math.sin(angle)
-  * ball.currentSpeed;
+  ball.y +=
+  ball.speedY;
 
   // =========================
   // WALL COLLISION
@@ -986,11 +999,16 @@ function update(){
 
   if(
 
-    ball.y - ball.size / 2 <= 0
+    ball.y
+    - ball.size / 2
+
+    <= 0
 
     ||
 
-    ball.y + ball.size / 2
+    ball.y
+    + ball.size / 2
+
     >= canvas.height
 
   ){
@@ -1004,17 +1022,52 @@ function update(){
 
   if(collision(player)){
 
-    ball.speedX =
-    Math.abs(ball.speedX);
+    // PUSH BALL OUTSIDE
+    ball.x =
 
+    player.x
+    + player.width
+    + ball.size / 2;
+
+    // SPEED UP ON HIT
+    if(
+
+      ball.currentSpeed
+      < ball.maxSpeed
+
+    ){
+
+      ball.currentSpeed +=
+      0.4;
+    }
+
+    // ANGLE
     const collidePoint =
 
     ball.y
-    - (player.y
-    + player.height / 2);
+
+    -
+
+    (
+      player.y
+      + player.height / 2
+    );
+
+    const angle =
+    collidePoint * 0.02;
+
+    // VELOCITY
+    ball.speedX =
+
+    Math.cos(angle)
+
+    * ball.currentSpeed;
 
     ball.speedY =
-    collidePoint * 0.12;
+
+    Math.sin(angle)
+
+    * ball.currentSpeed;
   }
 
   // =========================
@@ -1023,17 +1076,51 @@ function update(){
 
   if(collision(npc)){
 
-    ball.speedX =
-    -Math.abs(ball.speedX);
+    // PUSH BALL OUTSIDE
+    ball.x =
 
+    npc.x
+    - ball.size / 2;
+
+    // SPEED UP ON HIT
+    if(
+
+      ball.currentSpeed
+      < ball.maxSpeed
+
+    ){
+
+      ball.currentSpeed +=
+      0.4;
+    }
+
+    // ANGLE
     const collidePoint =
 
     ball.y
-    - (npc.y
-    + npc.height / 2);
+
+    -
+
+    (
+      npc.y
+      + npc.height / 2
+    );
+
+    const angle =
+    collidePoint * 0.02;
+
+    // VELOCITY
+    ball.speedX =
+
+    -Math.cos(angle)
+
+    * ball.currentSpeed;
 
     ball.speedY =
-    collidePoint * 0.12;
+
+    Math.sin(angle)
+
+    * ball.currentSpeed;
   }
 
   // =========================
@@ -1074,9 +1161,12 @@ function drawBackground(){
       canvas.height
     );
 
-  } else {
+  }
 
-    ctx.fillStyle = "#111";
+  else{
+
+    ctx.fillStyle =
+    "#111";
 
     ctx.fillRect(
 
@@ -1094,8 +1184,10 @@ function drawBackground(){
 // =========================
 
 function drawSword(
+
 x,
 y,
+
 flipped = false
 ){
 
@@ -1108,7 +1200,9 @@ flipped = false
   if(flipped){
 
     ctx.translate(
+
       x + swordWidth,
+
       y
     );
 
@@ -1131,16 +1225,21 @@ flipped = false
       swordHeight
     );
 
-  } else {
+  }
 
-    ctx.fillStyle = "white";
+  else{
+
+    ctx.fillStyle =
+    "white";
 
     ctx.fillRect(
 
       x + 20,
+
       y,
 
       12,
+
       140
     );
   }
@@ -1164,14 +1263,18 @@ function drawBall(){
     ball.size / 2,
 
     0,
+
     Math.PI * 2
   );
 
-  ctx.fillStyle = "white";
+  ctx.fillStyle =
+  "white";
 
-  ctx.shadowBlur = 20;
+  ctx.shadowBlur =
+  20;
 
-  ctx.shadowColor = "white";
+  ctx.shadowColor =
+  "white";
 
   ctx.fill();
 
@@ -1179,7 +1282,7 @@ function drawBall(){
 }
 
 // =========================
-// DRAW CENTER LINE
+// CENTER LINE
 // =========================
 
 function drawCenterLine(){
@@ -1189,19 +1292,29 @@ function drawCenterLine(){
 
   ctx.lineWidth = 6;
 
-  for(let i = 0;
-  i < canvas.height;
-  i += 40){
+  for(
+
+    let i = 0;
+
+    i < canvas.height;
+
+    i += 40
+
+  ){
 
     ctx.beginPath();
 
     ctx.moveTo(
+
       canvas.width / 2,
+
       i
     );
 
     ctx.lineTo(
+
       canvas.width / 2,
+
       i + 20
     );
 
@@ -1229,13 +1342,16 @@ function render(){
   drawCenterLine();
 
   drawSword(
+
     player.x,
     player.y
   );
 
   drawSword(
+
     npc.x,
     npc.y,
+
     true
   );
 
@@ -1250,7 +1366,8 @@ function render(){
   ctx.shadowColor =
   "red";
 
-  ctx.shadowBlur = 20;
+  ctx.shadowBlur =
+  20;
 
   ctx.fillText(
 
