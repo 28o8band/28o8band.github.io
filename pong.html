@@ -259,7 +259,7 @@ canvas{
 
   display:flex;
 
-  flex-direction:row;
+  align-items:center;
 
   gap:30px;
 
@@ -298,8 +298,6 @@ canvas{
   -webkit-touch-callout:none;
 
   -webkit-user-drag:none;
-
-  user-drag:none;
 }
 
 .dpad-btn:active{
@@ -321,6 +319,51 @@ canvas{
 
   background-image:
   url("Pong-Img/down-arrow.png");
+}
+
+/* =========================
+   HOME SHIELD
+========================= */
+
+#shield{
+
+  width:100px;
+  height:100px;
+
+  border-radius:50%;
+
+  border:3px solid #700000;
+
+  background:
+  radial-gradient(circle,
+  #3a0000,
+  #120000);
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  box-shadow:
+    0 0 20px red;
+
+  transition:0.2s;
+}
+
+#shield:active{
+
+  transform:scale(0.92);
+}
+
+#shield h1{
+
+  color:white;
+
+  font-size:22px;
+
+  text-shadow:
+    0 0 10px red;
 }
 
 /* =========================
@@ -359,15 +402,6 @@ canvas{
   touch-action:none;
 
   transition:0.15s;
-
-  -webkit-user-select:none;
-  user-select:none;
-
-  -webkit-touch-callout:none;
-
-  -webkit-user-drag:none;
-
-  user-drag:none;
 }
 
 #pauseBtn:active{
@@ -412,6 +446,12 @@ canvas{
 
     width:75px;
     height:75px;
+  }
+
+  #shield{
+
+    width:80px;
+    height:80px;
   }
 }
 
@@ -476,7 +516,7 @@ canvas{
 </div>
 
 <!-- =========================
-     GAME
+     CANVAS
 ========================= -->
 
 <canvas id="game"
@@ -499,12 +539,7 @@ height="600"></canvas>
 
       <div id="shield">
 
-        <h1 style="
-        color:white;
-        font-size:22px;
-        margin-top:30px;">
-          Home
-        </h1>
+        <h1>HOME</h1>
 
       </div>
 
@@ -621,9 +656,17 @@ const ball = {
 
   size:24,
 
+  baseSpeed:4,
+
+  maxSpeed:11,
+
+  acceleration:0.003,
+
+  currentSpeed:4,
+
   speedX:4,
 
-  speedY:2.5
+  speedY:2
 };
 
 // =========================
@@ -632,20 +675,22 @@ const ball = {
 
 const keys = {};
 
-window.addEventListener("keydown",
+window.addEventListener(
+"keydown",
 (e) => {
 
   keys[e.key.toLowerCase()] = true;
 });
 
-window.addEventListener("keyup",
+window.addEventListener(
+"keyup",
 (e) => {
 
   keys[e.key.toLowerCase()] = false;
 });
 
 // =========================
-// MOBILE BUTTONS
+// MOBILE CONTROLS
 // =========================
 
 const upBtn =
@@ -664,8 +709,7 @@ function holdButton(button, key){
 
     keys[key] = true;
   },
-  { passive:false }
-  );
+  { passive:false });
 
   button.addEventListener(
   "touchend",
@@ -706,29 +750,6 @@ function holdButton(button, key){
 holdButton(upBtn, "w");
 
 holdButton(downBtn, "s");
-
-// =========================
-// PREVENT MOBILE IMAGE SAVE
-// =========================
-
-document.addEventListener(
-"contextmenu",
-(e) => {
-
-  if(
-
-    e.target.classList.contains(
-    "dpad-btn")
-
-    ||
-
-    e.target.id === "pauseBtn"
-
-  ){
-
-    e.preventDefault();
-  }
-});
 
 // =========================
 // PAUSE BUTTON
@@ -806,14 +827,32 @@ window.addEventListener(
 
 function resetBall(){
 
-  ball.x = canvas.width / 2;
+  ball.x =
+  canvas.width / 2;
 
-  ball.y = canvas.height / 2;
+  ball.y =
+  canvas.height / 2;
 
-  ball.speedX *= -1;
+  ball.currentSpeed =
+  ball.baseSpeed;
+
+  const angle =
+  (Math.random() * Math.PI / 3)
+  - (Math.PI / 6);
+
+  const direction =
+  Math.random() > 0.5
+  ? 1
+  : -1;
+
+  ball.speedX =
+  Math.cos(angle)
+  * ball.currentSpeed
+  * direction;
 
   ball.speedY =
-  (Math.random() * 6) - 3;
+  Math.sin(angle)
+  * ball.currentSpeed;
 }
 
 // =========================
@@ -822,18 +861,25 @@ function resetBall(){
 
 function movePlayer(){
 
-  if(keys["w"])
-  player.y -= player.speed;
+  if(keys["w"]){
 
-  if(keys["s"])
-  player.y += player.speed;
+    player.y -= player.speed;
+  }
+
+  if(keys["s"]){
+
+    player.y += player.speed;
+  }
 
   player.y = Math.max(
 
     0,
 
     Math.min(
-      canvas.height - player.height,
+
+      canvas.height
+      - player.height,
+
       player.y
     )
   );
@@ -901,6 +947,43 @@ function update(){
 
   ball.y += ball.speedY;
 
+  // =========================
+  // BALL SPEED INCREASE
+  // =========================
+
+  if(ball.currentSpeed
+  < ball.maxSpeed){
+
+    ball.currentSpeed +=
+    ball.acceleration;
+  }
+
+  const angle =
+  Math.atan2(
+
+    ball.speedY,
+
+    ball.speedX
+  );
+
+  const directionX =
+  ball.speedX > 0
+  ? 1
+  : -1;
+
+  ball.speedX =
+  Math.cos(angle)
+  * ball.currentSpeed
+  * directionX;
+
+  ball.speedY =
+  Math.sin(angle)
+  * ball.currentSpeed;
+
+  // =========================
+  // WALL COLLISION
+  // =========================
+
   if(
 
     ball.y - ball.size / 2 <= 0
@@ -915,17 +998,47 @@ function update(){
     ball.speedY *= -1;
   }
 
+  // =========================
+  // PLAYER COLLISION
+  // =========================
+
   if(collision(player)){
 
     ball.speedX =
     Math.abs(ball.speedX);
+
+    const collidePoint =
+
+    ball.y
+    - (player.y
+    + player.height / 2);
+
+    ball.speedY =
+    collidePoint * 0.12;
   }
+
+  // =========================
+  // NPC COLLISION
+  // =========================
 
   if(collision(npc)){
 
     ball.speedX =
     -Math.abs(ball.speedX);
+
+    const collidePoint =
+
+    ball.y
+    - (npc.y
+    + npc.height / 2);
+
+    ball.speedY =
+    collidePoint * 0.12;
   }
+
+  // =========================
+  // SCORE
+  // =========================
 
   if(ball.x < 0){
 
@@ -1066,6 +1179,37 @@ function drawBall(){
 }
 
 // =========================
+// DRAW CENTER LINE
+// =========================
+
+function drawCenterLine(){
+
+  ctx.strokeStyle =
+  "rgba(255,0,0,0.25)";
+
+  ctx.lineWidth = 6;
+
+  for(let i = 0;
+  i < canvas.height;
+  i += 40){
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      canvas.width / 2,
+      i
+    );
+
+    ctx.lineTo(
+      canvas.width / 2,
+      i + 20
+    );
+
+    ctx.stroke();
+  }
+}
+
+// =========================
 // RENDER
 // =========================
 
@@ -1081,6 +1225,8 @@ function render(){
   );
 
   drawBackground();
+
+  drawCenterLine();
 
   drawSword(
     player.x,
@@ -1143,6 +1289,8 @@ function gameLoop(){
   requestAnimationFrame(
   gameLoop);
 }
+
+resetBall();
 
 gameLoop();
 
