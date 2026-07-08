@@ -122,6 +122,13 @@ justify-content: center;
 
 
 }
+
+#event {
+  flex: content;
+  justify-content: center;
+  padding: 300px;
+
+}
 #brickH {
   background-image: url("Texture/BorderStoneWall.png");
   background-position: center;
